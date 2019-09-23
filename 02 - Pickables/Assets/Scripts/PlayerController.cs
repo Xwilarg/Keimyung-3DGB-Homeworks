@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Parent UI for where star UI are placed")]
     private Transform parentUI;
     [SerializeField]
-    private Sprite starUIEmpty, starUIFull;
+    private Sprite starUIEmpty, starUIFull, blueKey;
     [SerializeField]
     private GameObject victoryUI;
     [SerializeField]
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private const int starCount = 5; // Max amount of star the player can get
 
     private int currStar; // Current amount of star the player have
+    private int currOther; // Current amount of other collectibles
     private Image[] allStarUI; // All Image of the UI of the star
 
     private void Start()
@@ -88,6 +89,10 @@ public class PlayerController : MonoBehaviour
             bluePlatform.GetComponent<TilemapCollider2D>().enabled = true;
             Tilemap tm = bluePlatform.GetComponent<Tilemap>();
             tm.color = new Color(tm.color.r, tm.color.g, tm.color.b, 1f);
+            GameObject ui = Instantiate(starUI, parentUI);
+            ui.GetComponent<Image>().sprite = blueKey;
+            ui.transform.Translate(new Vector2(currOther * 100f, -100f));
+            ui.transform.localScale = new Vector2(.9f, .9f);
             Destroy(collision.gameObject);
         }
     }

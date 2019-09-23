@@ -2078,6 +2078,7 @@ MonoBehaviour:
   parentUI: {fileID: 196205065}
   starUIEmpty: {fileID: 21300000, guid: 3a8f1623eb935e84ebb038271ff025cb, type: 3}
   starUIFull: {fileID: 21300000, guid: 7f3ea6617770ddc458b8dcc84b965908, type: 3}
+  blueKey: {fileID: 21300000, guid: ecb55b1f527ba004a95b476b602bf134, type: 3}
   victoryUI: {fileID: 2091886942}
   bluePlatform: {fileID: 1476763458}
 --- !u!1001 &1175397183
