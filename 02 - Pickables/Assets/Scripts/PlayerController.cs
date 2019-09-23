@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour
     private Sprite starUIEmpty, starUIFull;
     [SerializeField]
     private GameObject victoryUI;
+    [SerializeField]
+    private GameObject bluePlatform;
 
     private SpriteRenderer sr;
     private Rigidbody2D rb;
@@ -78,6 +81,13 @@ public class PlayerController : MonoBehaviour
             currStar++;
             if (currStar == starCount)
                 victoryUI.SetActive(true);
+            Destroy(collision.gameObject);
+        }
+        else if (collision.CompareTag("BlueKey"))
+        {
+            bluePlatform.GetComponent<TilemapCollider2D>().enabled = true;
+            Tilemap tm = bluePlatform.GetComponent<Tilemap>();
+            tm.color = new Color(tm.color.r, tm.color.g, tm.color.b, 1f);
             Destroy(collision.gameObject);
         }
     }
