@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
         xMin = GameObject.Find("Left collision").transform.position.x + 1f;
         xMax = GameObject.Find("Right collision").transform.position.x - 1f;
         yPos = GameObject.Find("Up collision").transform.position.y + 3f;
+        Destroy(gameObject, 10f);
         ResetTimerSpawn();
     }
 

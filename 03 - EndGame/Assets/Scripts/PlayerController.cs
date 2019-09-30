@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -14,15 +15,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Transform gun1, gun2;
     [SerializeField]
-    private GameObject missilePrefab;
+    private GameObject missilePrefab, explosionPrefab;
     [SerializeField]
     private GameObject[] life;
+    [SerializeField]
+    private Text scoreUI;
+
+    private int lifeIndex;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         timerShoot = 0f;
         isGun1Loaded = true;
+        lifeIndex = life.Length - 1;
     }
 
     private void FixedUpdate()
@@ -34,6 +40,26 @@ public class PlayerController : MonoBehaviour
             Instantiate(missilePrefab, (isGun1Loaded ? gun1 : gun2).position, Quaternion.identity);
             isGun1Loaded = !isGun1Loaded;
             timerShoot = refTimerShoot;
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Enemy"))
+        {
+            Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            Instantiate(explosionPrefab, collision.transform.position, Quaternion.identity);
+            Destroy(collision.gameObject);
+            if (lifeIndex == -1)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                life[lifeIndex].SetActive(false);
+                lifeIndex--;
+                transform.position = Vector2.zero;
+            }
         }
     }
 }
