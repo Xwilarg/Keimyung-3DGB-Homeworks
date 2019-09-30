@@ -19,8 +19,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private GameObject[] life;
     [SerializeField]
-    private Text scoreUI;
+    private Text scoreUI, gameOverUI;
 
+    private int score;
     private int lifeIndex;
 
     private void Start()
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         timerShoot = 0f;
         isGun1Loaded = true;
         lifeIndex = life.Length - 1;
+        score = 0;
     }
 
     private void FixedUpdate()
@@ -37,7 +39,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")) * speed;
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(missilePrefab, (isGun1Loaded ? gun1 : gun2).position, Quaternion.identity);
+            Instantiate(missilePrefab, (isGun1Loaded ? gun1 : gun2).position, Quaternion.identity).GetComponent<Missile>().SetPlayerController(this);
             isGun1Loaded = !isGun1Loaded;
             timerShoot = refTimerShoot;
         }
@@ -53,6 +55,8 @@ public class PlayerController : MonoBehaviour
             if (lifeIndex == -1)
             {
                 Destroy(gameObject);
+                gameOverUI.gameObject.SetActive(true);
+                gameOverUI.text += score;
             }
             else
             {
@@ -61,5 +65,11 @@ public class PlayerController : MonoBehaviour
                 transform.position = Vector2.zero;
             }
         }
+    }
+
+    public void IncreaseScore()
+    {
+        score++;
+        scoreUI.text = "Your Score: " + score;
     }
 }
